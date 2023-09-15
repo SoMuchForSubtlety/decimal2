@@ -1769,6 +1769,16 @@ func (z *Big) UnmarshalText(data []byte) error {
 	return z.scan(bytes.NewReader(data))
 }
 
+// UnmarshalBinary implements encoding.BinaryUnmarshaler.
+func (z *Big) UnmarshalBinary(data []byte) error {
+	return z.UnmarshalText(data)
+}
+
+// MarshalBinary implements encoding.BinaryMrshaler.
+func (z *Big) MarshalBinary() (data []byte, err error) {
+	return z.MarshalText()
+}
+
 // validate ensures x's internal state is correct. There's no need for it to
 // have good performance since it's for debug == true only.
 func (x *Big) validate() {
