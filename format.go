@@ -91,12 +91,6 @@ func roundString(b []byte, mode RoundingMode, pos bool, prec int) []byte {
 	return b[:prec]
 }
 
-// formatCompact formats the compact decimal, x, as an unsigned integer.
-func formatCompact(x uint64) []byte {
-	var b [20]byte
-	return strconv.AppendUint(b[0:0], uint64(x), 10)
-}
-
 // formatUnscaled formats the unscaled (non-compact) decimal, unscaled, as an
 // unsigned integer.
 func formatUnscaled(unscaled *big.Int) []byte {
@@ -204,7 +198,7 @@ func (f *formatter) format(x *Big, format format, e byte) {
 	)
 	if f.prec > 0 {
 		if x.isCompact() {
-			b = formatCompact(x.compact)
+			b = []byte(strconv.FormatUint(uint64(x.compact), 10))
 		} else {
 			b = formatUnscaled(&x.unscaled)
 		}
